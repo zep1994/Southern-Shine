@@ -1,69 +1,19 @@
-import Image from "next/image";
+"use client";
+import { useState } from "react";
+function Icon({type="spark",size=24}){const paths={spark:"M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4L12 2Z",home:"m3 10 9-7 9 7M5 9v12h14V9M9 21v-8h6v8",shield:"M12 3 3 7v6c0 5 9 9 9 9s9-4 9-9V7l-9-4Zm-4 9 3 3 5-6",pin:"M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0ZM12 7a3 3 0 1 0 0 6 3 3 0 0 0 0-6",arrow:"M4 12h16m-6-6 6 6-6 6",water:"M12 2S4 11 4 15a8 8 0 0 0 16 0c0-4-8-13-8-13Z",deck:"M3 8h18M3 13h18M3 18h18M7 4v18M17 4v18",phone:"M7 3H3c-1 10 8 19 18 18v-4l-5-3-3 3-6-6 3-3-3-5Z",check:"m5 12 4 4L19 6"};return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={paths[type]||paths.spark}/></svg>}
+const services=[{n:"01",name:"House washing",text:"A gentle soft wash that lifts away algae, mildew, and years of buildup. Hello, fresh curb appeal.",icon:"home",tag:"A fresh start for your home"},{n:"02",name:"Driveways & concrete",text:"From everyday grime to stubborn stains, we bring your driveway, sidewalk, and patio back to life.",icon:"water",tag:"Our most popular service"},{n:"03",name:"Decks & fences",text:"Restore the natural beauty of your outdoor spaces with a careful clean made for wood and vinyl.",icon:"deck",tag:"Make the outdoors yours again"},{n:"04",name:"Roof & gutter cleaning",text:"Say goodbye to dark roof streaks and clogged gutters. A cleaner home, from the top down.",icon:"shield",tag:"Protect what matters"}];
+function Brand(){return <a href="#home" className="brand" aria-label="Southern Shine home"><span className="brand-icon"><Icon size={33}/></span><span>SOUTHERN SHINE<small>EXTERIOR CLEANING</small></span></a>}
+export default function Home(){const[menu,setMenu]=useState(false);const[split,setSplit]=useState(50);const[submitted,setSubmitted]=useState(false);const[project,setProject]=useState(0);return <>
+<div className="topbar"><span>Jackson’s local exterior cleaning crew. A little Southern care. A whole lot of shine.</span><span><Icon type="pin" size={14}/> Jackson, MS & surrounding areas</span></div>
+<header><div className="nav-wrap"><Brand/><button className="menu-toggle" onClick={()=>setMenu(!menu)} aria-expanded={menu} aria-label="Toggle navigation">{menu?"✕":"☰"}</button><nav className={menu?"open":""}>{[["Services","services"],["Our work","work"],["Why Southern Shine","about"],["Reviews","reviews"]].map(([text,id])=><a key={id} href={`#${id}`} onClick={()=>setMenu(false)}>{text}</a>)}<a className="button nav-cta" href="#quote" onClick={()=>setMenu(false)}>Get a free quote <Icon type="arrow" size={18}/></a></nav></div></header>
+<main><section id="home" className="hero"><div className="hero-copy"><div className="eyebrow"><span/> GOOD PEOPLE. GREAT RESULTS.</div><h1>A cleaner home.<br/>A brighter <span>first<br className="desktop-break"/> impression.</span></h1><p>We wash away the grime so your home can shine.<br className="desktop-break"/> Professional pressure washing with hometown care,<br className="desktop-break"/> right here in Jackson, Mississippi.</p><div className="hero-actions"><a className="button" href="#quote">Get my free quote <Icon type="arrow" size={19}/></a><a className="text-link" href="#work">See the difference <span>↗</span></a></div><div className="hero-proof"><span className="stars">★★★★★</span><span><strong>4.9/5</strong> from happy local homeowners</span></div></div><div className="hero-image"><img src="/driveway-cleaning.png" alt="Professional pressure washing a Southern home's concrete driveway"/><div className="photo-note"><span className="note-icon"><Icon type="shield" size={26}/></span><span><strong>Your home. In good hands.</strong><small>Fully insured. Locally owned. Detail obsessed.</small></span></div><div className="image-label"><span/> THE SOUTHERN SHINE DIFFERENCE</div></div></section>
+<div className="trust-strip"><span><Icon type="shield"/> Fully licensed & insured</span><span><Icon type="pin"/> Locally owned in Jackson</span><span><Icon type="water"/> Safe, surface-specific cleaning</span><span><Icon type="check"/> Satisfaction guaranteed</span></div>
+<section id="services" className="section services"><div className="section-heading"><div><div className="eyebrow">A FRESH LOOK, FROM TOP TO BOTTOM</div><h2>Big clean. Little details.</h2></div><p>Every surface is different. We bring the right tools,<br/> the right touch, and a whole lot of pride to each one.</p></div><div className="service-grid">{services.map(s=><a href="#quote" className="service-card" key={s.n}><div className="service-top"><span className="service-icon"><Icon type={s.icon} size={29}/></span><span className="service-number">{s.n}</span></div><h3>{s.name}</h3><p>{s.text}</p><div className="service-bottom"><span>{s.tag}</span><Icon type="arrow" size={20}/></div></a>)}</div></section>
+<section id="work" className="work section"><div className="work-copy"><div className="eyebrow">THE PROOF IS IN THE PRESSURE WASH</div><h2>Same driveway.<br/><span>Whole new feeling.</span></h2><p>Years of buildup, gone in an afternoon. From the first pass to the final rinse, we don’t stop until the difference speaks for itself.</p><div className="project-detail"><strong>{["Concrete driveway refresh","House siding soft wash","Wood deck restoration"][project]}</strong><span>Jackson, Mississippi · Example transformation</span></div><a className="text-link" href="#quote">Let’s give your home a fresh start <Icon type="arrow" size={20}/></a></div><div><div className="comparison"><img src={`/project-${project}-after.jpg`} alt={`${["Driveway","House siding","Wood deck"][project]} after cleaning example`}/><div className="before-image" style={{clipPath:`inset(0 ${100-split}% 0 0)`}}><img src={`/project-${project}-before.jpg`} alt={`${["Driveway","House siding","Wood deck"][project]} before cleaning example`}/></div><span className="compare-label before">BEFORE</span><span className="compare-label after">AFTER</span><div className="compare-line" style={{left:`${split}%`}}><span>‹ ›</span></div><input type="range" min="5" max="95" value={split} onChange={e=>setSplit(Number(e.target.value))} aria-label="Slide to compare before and after"/></div><p className="comparison-caption">↔ Slide to see the shine <span>AI-generated example projects</span></p><div className="gallery-picker" aria-label="Choose a before and after project">{["Driveway refresh","House wash","Deck restoration"].map((name,index)=><button key={name} className={project===index?"selected":""} aria-pressed={project===index} onClick={()=>{setProject(index);setSplit(50)}}><img src={`/project-${index}-after.jpg`} alt=""/><span>{name}</span></button>)}</div></div></section>
+<section id="about" className="about section"><div className="about-mark"><Icon size={90}/><span>A LITTLE SOUTHERN CARE.<br/>A WHOLE LOT OF SHINE.</span><div className="since">PROUDLY LOCAL SINCE 2016</div></div><div><div className="eyebrow">YOUR NEIGHBORS. YOUR CLEANING CREW.</div><h2>Jackson roots.<br/>Standout results.</h2><p>We started Southern Shine in 2016 with one pressure washer and a simple promise: treat every home like it’s our own. Today, our family-owned crew still shows up on time, sweats the small stuff, and leaves your place better than we found it.</p><div className="stats"><div><strong>10+</strong><span>years of local care</span></div><div><strong>1,200+</strong><span>homes refreshed</span></div><div><strong>100%</strong><span>committed to your shine</span></div></div></div></section>
+<section id="reviews" className="section reviews"><div className="section-heading"><div><div className="eyebrow">KIND WORDS FROM AROUND THE CORNER</div><h2>Clean homes. Happy neighbors.</h2></div><div className="review-score"><span className="stars">★★★★★</span><strong>4.9 out of 5</strong><small>Our fictional community rating</small></div></div><div className="review-grid">{[{quote:"I honestly forgot our driveway could look this good. The crew was friendly, on time, and left everything spotless. Southern Shine is our go-to now!",name:"Sarah M.",place:"Jackson, MS"},{quote:"They treated our home like their own. The green buildup on our siding is completely gone, and the whole house looks brighter. Couldn’t be happier.",name:"James R.",place:"Madison, MS"},{quote:"Easy quote, fair price, and a beautiful result. Our back patio is ready for family cookouts again. These folks really care about the details.",name:"Denise T.",place:"Brandon, MS"}].map(r=><article key={r.name} className="review-card"><span className="stars">★★★★★</span><p>“{r.quote}”</p><div className="review-person"><span className="avatar">{r.name[0]}</span><div><strong>{r.name}</strong><small>{r.place}</small></div><Icon type="check" size={18}/></div></article>)}</div></section>
+<section id="coverage" className="coverage section"><div><div className="eyebrow">LOCAL CREW. NEIGHBORHOOD REACH.</div><h2>Bringing the shine<br/>to greater Jackson.</h2><p>From downtown to your driveway, we’re proud to serve our neighbors across the Jackson metro.</p><div className="towns">{["Jackson","Madison","Ridgeland","Brandon","Clinton","Pearl","Flowood","Byram"].map(t=><span key={t}><Icon type="pin" size={15}/>{t}</span>)}</div><p className="coverage-note">Just outside the area? Reach out — we may be headed your way.</p></div><div className="area-art"><div className="orbit orbit-one"/><div className="orbit orbit-two"/><span className="map-town madison">Madison</span><span className="map-town clinton">Clinton</span><span className="map-town brandon">Brandon</span><span className="map-town pearl">Pearl</span><div className="map-center"><Icon type="pin" size={30}/><strong>Jackson</strong><small>HOME OF THE SHINE</small></div><span className="map-caption">SERVING THE JACKSON METRO</span></div></section>
+<section id="quote" className="quote section"><div><div className="eyebrow">LET’S MAKE YOUR PLACE SHINE</div><h2>Your fresh start<br/>is one quote away.</h2><p>Tell us a little about your property. We’ll take care of the rest with a friendly, no-pressure estimate.</p><div className="quote-points"><span><Icon type="check" size={19}/> Free estimates. Always.</span><span><Icon type="check" size={19}/> Friendly service, start to finish.</span><span><Icon type="check" size={19}/> A clean you’ll feel good about.</span></div><a className="contact-phone" href="tel:+16015550148"><Icon type="phone" size={22}/> (601) 555-0148</a><small className="hours">Monday–Friday, 8am–5pm · Saturday, 9am–2pm</small></div><form onSubmit={e=>{e.preventDefault();setSubmitted(true)}}><h3>Get your free quote</h3><div className="form-row"><label>Your name<input required name="name" placeholder="First and last name" autoComplete="name"/></label><label>Phone number<input required name="phone" type="tel" placeholder="(601) 555-0123" autoComplete="tel"/></label></div><label>Email address<input required name="email" type="email" placeholder="you@example.com" autoComplete="email"/></label><label>What can we help with?<select name="service" defaultValue="" required><option value="" disabled>Select a service</option>{services.map(s=><option key={s.n}>{s.name}</option>)}<option>A little bit of everything</option></select></label><label>A few details<textarea name="details" placeholder="Tell us about your property and what needs a little shine." rows={3}/></label><button className="button" type="submit">Request my free quote <Icon type="arrow" size={18}/></button><p className="form-note" role="status">{submitted?"Thanks for trying it! This is a demo form, so your request has not been sent.":"Demo form — requests are not sent or stored."}</p></form></section>
+</main><footer><div className="footer-main"><Brand/><span>A little Southern care. A whole lot of shine.</span><a href="#home">Back to top ↑</a></div><div className="footer-bottom"><span>© 2026 Southern Shine Exterior Cleaning</span><span>Fictional company · Sample projects and reviews · Jackson, MS</span></div></footer></>}
 
-export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.js
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
-}
+
